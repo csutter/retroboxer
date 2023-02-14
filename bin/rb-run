@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: rb-run [machine_name]"
+    exit 1
+fi
+
+name=$1
+
+# TODO: This should be more generic/configurable
+app_path="/Applications/86Box.app/Contents/MacOS/86Box"
+
+if [ ! -f "$name/86box.cfg" ]; then
+    echo "Error: No configuration '$name' found here."
+    exit 1
+fi
+config_folder=$(realpath "$1")
+
+echo "Starting machine '$name' in '$config_folder'..."
+$app_path -P $config_folder -V $name
