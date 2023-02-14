@@ -17,6 +17,7 @@ manager.
 This repository contains:
 - My own minimum viable configuration manager
 - 86box template configuration files for several "era appropriate" emulated machines
+- Compressed blank HDD images (to save having to create them in the UI or using `dd`)
 - Notes on installing and configuring assorted vintage operating systems
 
 ## Requirements
@@ -31,10 +32,13 @@ This repository contains:
 > Note: The following assumes you are running commands from your machine storage directory
 
 ### Create a new machine from a template
+Creates a machine called "win95" from the template "1996-pentium133" with a blank 2GB HD image:
 ```bash
-# Creates a machine called "win95" from the template "1996-pentium133"
-$ rb-create 1996-pentium133 win95
+$ rb-create 1996-pentium133 2g win95
 ```
+
+(Check the configuration template to see what the standard image used is, or use a different image
+and update your generated configuration if you prefer.)
 
 ### Run a virtual machine
 ```bash

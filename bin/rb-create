@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Check arguments
+if [ "$#" -ne 3 ]; then
+    echo "Usage: rb-create [template] [hd_image] [name]"
+    exit 1
+fi
+
+# Gather information about script directory
+script_dir=$(dirname "$0")
+repository_dir=$(realpath "$script_dir"/..)
+
+# Set variables
+template=$1
+template_file="$repository_dir/templates/$template.cfg"
+hd_image=$2
+hd_image_file="$repository_dir/hd_images/$hd_image.tar.xz"
+name=$3
+
+# Check template exists
+if [ ! -f "$template_file" ]; then
+    echo "Error: Could not find template '$template'."
+    exit 1
+fi
+
+# Check HDD image exists
+if [ ! -f "$hd_image_file" ]; then
+    echo "Error: Could not find HDD image '$hd_image'."
+    exit 1
+fi
+
+# Check destination folder does not exist
+if [ -e "$name" ]; then
+    echo "Error: Cannot create directory '$name' because that name is taken."
+    exit 1
+fi
+
+echo "Creating target directory..."
+mkdir "$name"
+mkdir "$name"/img
+
+echo "Copying template..."
+cp "$template_file" "$name"/86box.cfg
+
+echo "Extracting blank HD image..."
+tar -xf "$hd_image_file" -C "$name"/img
+
+echo "Done!"
